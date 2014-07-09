@@ -9,7 +9,4 @@ It is envisaged that notifications would form part of a semi-automated workflow.
 
 __Notes__
 
-This project is a work in progress.
-
-
-![__Screenshot__](https://github.com/t-tang/Notfication-Client/blob/master/notification-client.jpg)
+This project is a work in progress. ![Screenshot](https://github.com/t-tang/Notfication-Client/blob/master/notification-client.jpg)
