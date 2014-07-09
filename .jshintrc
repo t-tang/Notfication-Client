@@ -1,5 +1,5 @@
 {
-    "predef": ["define","requirejs"],
+    "predef": ['define','requirejs','DS','Ember', 'UserTaskApp','window'],
     "nonew": true,
     "quotmark": "single",
     "curly":true,

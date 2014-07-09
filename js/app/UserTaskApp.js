@@ -1,6 +1,8 @@
+/* global DS Ember */
 define(
     ['Service','EventBus'],
-    function(Service,HostConfig) {
+    function(Service) {
+        'use strict';
 ///////////////////////////////////////
 // Create the application
 ///////////////////////////////////////
@@ -21,23 +23,50 @@ define(
             model: function () {
                 return this.store.find('usertask');
             }});
-
 ///////////////////////////////////////
 // UserTasksView controller
 ///////////////////////////////////////
         UserTaskApp.UserTasksViewController = Ember.ArrayController.extend(
             {
-                actions: {
-                    applyAction: function (usertask, action) {
-                        usertask.set('userStatusMessage','Applying action').save();
-                        Service.applyAction(action);
-                    },
-                    dismiss: function(usertask) {
-                       this.store.deleteRecord(usertask);
-                    }
-                }
             });
 
+///////////////////////////////////////
+// UserTask Controller
+///////////////////////////////////////
+        UserTaskApp.UsertaskController = Ember.ObjectController.extend({
+
+            isNotCompleted : function(key,value) {
+                var model = this.get('model');
+
+                if (value === undefined) {
+                    return !model.get('completed');
+                } else {
+                    throw new Error(key + ' is a readonly property');
+                }
+            }.property('model.completed'),
+
+            isNotPending : function(key,value) {
+                var model = this.get('model');
+
+                if (value === undefined) {
+                    return !model.get('pending');
+                } else {
+                    throw new Error(key + ' is a readonly property');
+                }
+            }.property('model.pending'),
+
+            actions: {
+                applyAction: function (action) {
+                    var model = this.get('model');
+                    model.set('pending',false).set('actioned',true).save();
+                    Service.applyAction(action);
+                },
+
+                dismiss: function() {
+                    this.store.deleteRecord(this.get('model'));
+                }
+            }
+        });
 
 ///////////////////////////////////////
 // Model - UserTask
@@ -46,9 +75,11 @@ define(
             {
                 title: DS.attr('string'),
                 userMessage: DS.attr('string'),
-                completed: DS.attr('boolean'),
                 actions: DS.attr('actions'),
-                userStatusMessage: DS.attr('string'),
+                pending: DS.attr('boolean'),
+                actioned: DS.attr('boolean'),
+                completed: DS.attr('boolean'),
+                userStatusMessage: DS.attr('string')
             }
         );
 

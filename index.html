@@ -3,29 +3,28 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>User Task</title>
+    <link rel="stylesheet" type="text/css" href="index.css">
 </head>
 <body>
     <script type="text/x-handlebars" data-template-name="UserTasksView">
-     <h1>Notifications</h1>
-    <ul>
-        {{#each usertask in content}}
-        <li>
-            <div>{{usertask.title}}</div>
-            <div>{{usertask.userMessage}}</div>
-            <div>{{usertask.uiStatusMessage}}</div>
-            <div>{{usertask.userStatusMessage}}</div>
-        </li>
-            {{#if usertask.completed}}
-                <button {{action dismiss usertask}}>Dismiss</button>
-            {{else}}
-                {{#each action in usertask.actions}}
-                    <button {{ action applyAction usertask action}}>{{action.label}}</button>
+        <h1>Notifications</h1>
+        <ul>
+            {{#each itemController="usertask"}}
+                <li>
+                    <div>{{title}}</div>
+                    <div>{{userMessage}}</div>
+                    <div>{{userStatusMessage}}</div>
+                </li>
+                {{#each action in actions}}
+                    <button {{ action applyAction action}}
+                        {{bind-attr disabled="isNotPending"}}>{{action.label}}</button>
                 {{/each}}
-            {{/if}}
-        {{else}}
-            <div>There are no notifications</div>
-        {{/each}}
-    </ul>
+                <button {{action dismiss}}
+                    {{bind-attr disabled="isNotCompleted"}}>Dismiss</button>
+            {{else}}
+                No outstanding notifications
+            {{/each}}
+        </ul>
     </script>
 
     <script src="js/lib/jquery-2.0.3.js"></script>
