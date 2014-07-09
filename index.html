@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>User Task</title>
+</head>
+<body>
+    <script type="text/x-handlebars" data-template-name="UserTasksView">
+     <h1>Notifications</h1>
+    <ul>
+        {{#each usertask in content}}
+        <li>
+            <div>{{usertask.title}}</div>
+            <div>{{usertask.userMessage}}</div>
+            <div>{{usertask.uiStatusMessage}}</div>
+            <div>{{usertask.userStatusMessage}}</div>
+        </li>
+            {{#if usertask.completed}}
+                <button {{action dismiss usertask}}>Dismiss</button>
+            {{else}}
+                {{#each action in usertask.actions}}
+                    <button {{ action applyAction usertask action}}>{{action.label}}</button>
+                {{/each}}
+            {{/if}}
+        {{else}}
+            <div>There are no notifications</div>
+        {{/each}}
+    </ul>
+    </script>
+
+    <script src="js/lib/jquery-2.0.3.js"></script>
+    <script src="js/lib/handlebars-1.0.0.js"></script>
+    <script src="js/lib/ember.js"></script>
+    <script src="js/lib/ember-data.js"></script>
+    <script data-main="require-config" src="js/lib/require.js"></script>
+</body>
+</html>

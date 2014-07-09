@@ -1,0 +1,15 @@
+{
+    "predef": ["define","requirejs"],
+    "nonew": true,
+    "quotmark": "single",
+    "curly":true,
+    "noarg":true,
+    "forin":true,
+    "noempty":true,
+    "eqeqeq":true,
+    "strict":true,
+    "undef":true,
+    "bitwise":true,
+    "browser":true,
+    "devel":true
+}
