@@ -5,5 +5,11 @@ This POC demonstrates an Html5-Ember client for real-time enterprise class appli
 
 A notification contains actions which are rendered as buttons, on a button click a REST call is triggered to perform the actual action. Real time data updates and REST responses are published onto an event bus for consumption by the application.
 
-It is envisaged that notifications would form part of a workflow, whenever user decision are needed, the workflow would pop up a notification with the relevant actions at that point.
+It is envisaged that notifications would form part of a semi-automated workflow. The workflow would pop up a notification whenever user interaction is needed.
+
+__Notes__
+
+This project is a work in progress.
+
+__Screenshot__
 
