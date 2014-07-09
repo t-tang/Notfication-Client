@@ -13,3 +13,4 @@ This project is a work in progress.
 
 __Screenshot__
 
+![My image](github.com/t-tang/repository/notification-client.jpg)
