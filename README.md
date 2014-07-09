@@ -11,7 +11,5 @@ __Notes__
 
 This project is a work in progress.
 
-__Screenshot__
 
-
-![Image](https://github.com/t-tang/Notfication-Client/blob/master/notification-client.jpg)
+![__Screenshot__](https://github.com/t-tang/Notfication-Client/blob/master/notification-client.jpg)
