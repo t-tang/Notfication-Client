@@ -28,6 +28,13 @@ define(
 ///////////////////////////////////////
         UserTaskApp.UserTasksViewController = Ember.ArrayController.extend(
             {
+                hideNotifications : false,
+
+                actions: {
+                    toggleList: function () {
+                        this.set('hideNotifications',!this.get('hideNotifications'));
+                    }
+                }
             });
 
 ///////////////////////////////////////
@@ -35,35 +42,31 @@ define(
 ///////////////////////////////////////
         UserTaskApp.UsertaskController = Ember.ObjectController.extend({
 
-            isNotCompleted : function(key,value) {
-                var model = this.get('model');
+            isOutstanding: function (key,value) {
+                if (value !== undefined) {throw new Error(key + 'is a read only property');}
+                return this.get('model.status') === 'OUTSTANDING';
+            }.property('model.status'),
 
-                if (value === undefined) {
-                    return !model.get('completed');
-                } else {
-                    throw new Error(key + ' is a readonly property');
-                }
-            }.property('model.completed'),
+            isActioned: function (key,value) {
+                if (value !== undefined) {throw new Error(key + 'is a read only property');}
+                return this.get('model.status') === 'ACTIONED';
+            }.property('model.status'),
 
-            isNotPending : function(key,value) {
-                var model = this.get('model');
-
-                if (value === undefined) {
-                    return !model.get('pending');
-                } else {
-                    throw new Error(key + ' is a readonly property');
-                }
-            }.property('model.pending'),
+            isCompleted : function(key,value) {
+                if (value !== undefined) {throw new Error(key + 'is a read only property');}
+                return this.get('model.status') === 'COMPLETED';
+            }.property('model.status'),
 
             actions: {
                 applyAction: function (action) {
-                    var model = this.get('model');
-                    model.set('pending',false).set('actioned',true).save();
                     Service.applyAction(action);
+                    this.get('model').set('pending',false).set('actioned',true).save();
                 },
 
                 dismiss: function() {
-                    this.store.deleteRecord(this.get('model'));
+                    if (this.get('model.status') === 'COMPLETED') {
+                        this.store.deleteRecord(this.get('model'));
+                    }
                 }
             }
         });
@@ -74,11 +77,9 @@ define(
         UserTaskApp.Usertask = DS.Model.extend(
             {
                 title: DS.attr('string'),
+                status: DS.attr('string'),
                 userMessage: DS.attr('string'),
                 actions: DS.attr('actions'),
-                pending: DS.attr('boolean'),
-                actioned: DS.attr('boolean'),
-                completed: DS.attr('boolean'),
                 userStatusMessage: DS.attr('string')
             }
         );
@@ -102,7 +103,6 @@ define(
 ///////////////////////////////////////
         UserTaskApp.ApplicationAdapter = DS.FixtureAdapter.extend();
         UserTaskApp.Usertask.FIXTURES = [];
-
     }
 );
 
